@@ -32,7 +32,7 @@ public class CheckoutController {
 
         for (CartItemDto dto : request.getItems()) {
             if(!skuPriceMap.containsKey(dto.getSkuId())){
-                System.out.println("Ivalid SKU ID:" + dto.getSkuId());
+                System.out.println("Invalid SKU ID:" + dto.getSkuId());
             }
             SKU sku = new SKU(dto.getSkuId(), skuPriceMap.get(dto.getSkuId()));
             cartItems.add(new CartItem(sku, dto.getQuantity()));
