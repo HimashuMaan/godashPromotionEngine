@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class SKU {
     String id;
-    float price;
+    int price;
 }
