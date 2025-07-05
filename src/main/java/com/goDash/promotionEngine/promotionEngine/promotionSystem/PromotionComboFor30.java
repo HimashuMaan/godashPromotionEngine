@@ -1,10 +1,12 @@
 package com.goDash.promotionEngine.promotionEngine.promotionSystem;
 
 import com.goDash.promotionEngine.promotionEngine.model.CartItem;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-public class PromotionCmboFor30 implements Promotion {
+@Component
+public class PromotionComboFor30 implements Promotion {
 
     public boolean isApplicable(List<CartItem> items) {
         long cCount = items.stream().filter(item -> item.getSku().getId().equalsIgnoreCase("C")

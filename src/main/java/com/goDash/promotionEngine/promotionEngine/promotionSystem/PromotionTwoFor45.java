@@ -1,9 +1,10 @@
 package com.goDash.promotionEngine.promotionEngine.promotionSystem;
 
 import com.goDash.promotionEngine.promotionEngine.model.CartItem;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public class PromotionTwoFor45 implements Promotion {
 
 
@@ -16,7 +17,7 @@ public class PromotionTwoFor45 implements Promotion {
 
     public int apply(List<CartItem> cartItems) {
         for(CartItem item:cartItems){
-            if(item.getSku().getId().equals("A")){
+            if(item.getSku().getId().equals("B")){
                 int sets=item.getQuantity()/2;
                 int remaining=item.getQuantity()%2;
                 int total=sets*45+remaining*item.getSku().getPrice();

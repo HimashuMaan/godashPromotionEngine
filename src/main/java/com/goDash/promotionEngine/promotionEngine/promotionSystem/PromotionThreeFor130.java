@@ -1,9 +1,10 @@
 package com.goDash.promotionEngine.promotionEngine.promotionSystem;
 
 import com.goDash.promotionEngine.promotionEngine.model.CartItem;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Component
 public class PromotionThreeFor130 implements Promotion {
 
 
