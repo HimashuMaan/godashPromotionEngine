@@ -33,5 +33,12 @@ class ThreeAFor130PromotionTest {
         ));
         assertEquals(100, total);
     }
+    @Test
+    void oneA() {
+        int total = promo.apply(List.of(
+                new CartItem(new SKU("A", 50), 1)
+        ));
+        assertEquals(50, total);
+    }
 }
 
