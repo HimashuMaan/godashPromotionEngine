@@ -4,7 +4,9 @@ import com.goDash.promotionEngine.promotionEngine.model.CartItem;
 import com.goDash.promotionEngine.promotionEngine.model.SKU;
 import com.goDash.promotionEngine.promotionEngine.promotionSystem.PromotionComboFor30;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PromotionComboFor30Test {
@@ -19,6 +21,7 @@ class PromotionComboFor30Test {
         ));
         assertEquals(30, total);
     }
+
     @Test
     void exactly2Cand2D() {
         int total = promo.apply(List.of(
