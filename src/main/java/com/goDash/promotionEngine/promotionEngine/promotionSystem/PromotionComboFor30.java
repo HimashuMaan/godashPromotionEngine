@@ -8,37 +8,51 @@ import java.util.List;
 @Component
 public class PromotionComboFor30 implements Promotion {
 
+    @Override
     public boolean isApplicable(List<CartItem> items) {
-        long cCount = items.stream().filter(item -> item.getSku().getId().equalsIgnoreCase("C")
-                && item.getQuantity() > 0).count();
-        long dCount = items.stream().filter(item -> item.getSku().getId().equalsIgnoreCase("D")
-                && item.getQuantity() > 0).count();
+        int cCount = items.stream()
+                .filter(item -> item.getSku().getId().equalsIgnoreCase("C"))
+                .mapToInt(CartItem::getQuantity)
+                .sum();
+
+        int dCount = items.stream()
+                .filter(item -> item.getSku().getId().equalsIgnoreCase("D"))
+                .mapToInt(CartItem::getQuantity)
+                .sum();
+
         return cCount > 0 && dCount > 0;
     }
 
-
+    @Override
     public int apply(List<CartItem> items) {
-        CartItem cItem = null;
-        CartItem dItem = null;
+        int cTotalQty = 0;
+        int dTotalQty = 0;
 
         for (CartItem item : items) {
             if (item.getSku().getId().equalsIgnoreCase("C")) {
-                cItem = item;
+                cTotalQty += item.getQuantity();
             } else if (item.getSku().getId().equalsIgnoreCase("D")) {
-                dItem = item;
+                dTotalQty += item.getQuantity();
             }
         }
 
-        if (cItem == null || dItem == null) {
-            return 0;
-        }
-        int comboCount = Math.min(cItem.getQuantity(), dItem.getQuantity());
-        int cRemaining = cItem.getQuantity() - comboCount;
-        int dRemaining = dItem.getQuantity() - comboCount;
-
+        int comboCount = Math.min(cTotalQty, dTotalQty);
         int total = comboCount * 30;
-        cItem.setQuantity(cRemaining);
-        dItem.setQuantity(dRemaining);
+
+        int cToRemove = comboCount;
+        int dToRemove = comboCount;
+
+        for (CartItem item : items) {
+            if (item.getSku().getId().equalsIgnoreCase("C") && cToRemove > 0) {
+                int used = Math.min(item.getQuantity(), cToRemove);
+                item.setQuantity(item.getQuantity() - used);
+                cToRemove -= used;
+            } else if (item.getSku().getId().equalsIgnoreCase("D") && dToRemove > 0) {
+                int used = Math.min(item.getQuantity(), dToRemove);
+                item.setQuantity(item.getQuantity() - used);
+                dToRemove -= used;
+            }
+        }
 
         return total;
     }
