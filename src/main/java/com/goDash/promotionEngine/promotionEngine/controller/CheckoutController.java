@@ -5,6 +5,7 @@ import com.goDash.promotionEngine.promotionEngine.dto.CartRequest;
 import com.goDash.promotionEngine.promotionEngine.model.CartItem;
 import com.goDash.promotionEngine.promotionEngine.model.SKU;
 import com.goDash.promotionEngine.promotionEngine.service.CheckoutService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/checkout")
 public class CheckoutController {
@@ -32,21 +33,14 @@ public class CheckoutController {
 
         for (CartItemDto dto : request.getItems()) {
             if(!skuPriceMap.containsKey(dto.getSkuId())){
-                System.out.println("Invalid SKU ID:" + dto.getSkuId());
+                log.error("Invalid SKU ID: {}", dto.getSkuId());
             }
             SKU sku = new SKU(dto.getSkuId(), skuPriceMap.get(dto.getSkuId()));
             cartItems.add(new CartItem(sku, dto.getQuantity()));
         }
         int total = checkoutService.calculateTotal(cartItems);
         return  total;
-//        Map<String, Object> response = new HashMap<>();
-//        return response;
-    }
 
-    @GetMapping("hi")
-    public String hello(){
-        return "hiiii";
     }
-
 
 }
